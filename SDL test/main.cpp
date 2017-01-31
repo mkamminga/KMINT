@@ -1,49 +1,23 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdlib.h>
-
-
-
-void drawcircle(SDL_Renderer* renderer, int x0, int y0, int radius)
-{
-	int x = radius;
-	int y = 0;
-	int err = 0;
-
-	while (x >= y)
-	{
-		SDL_RenderDrawPoint(renderer, x0 + x, y0 + y);
-		SDL_RenderDrawPoint(renderer, x0 + y, y0 + x);
-		SDL_RenderDrawPoint(renderer, x0 - y, y0 + x);
-		SDL_RenderDrawPoint(renderer, x0 - x, y0 + y);
-		SDL_RenderDrawPoint(renderer, x0 - x, y0 - y);
-		SDL_RenderDrawPoint(renderer, x0 - y, y0 - x);
-		SDL_RenderDrawPoint(renderer, x0 + y, y0 - x);
-		SDL_RenderDrawPoint(renderer, x0 + x, y0 - y);
-
-		if (err <= 0)
-		{
-			y += 1;
-			err += 2 * y + 1;
-		}
-		if (err > 0)
-		{
-			x -= 1;
-			err -= 2 * x + 1;
-		}
-	}
-}
-
+#include "MainVisitor.h"
+#include "Game.h"
 
 int main(int argc, char *argv[])
 {
+	MainVisitor mainView;
+	Game game;
+	
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		SDL_Window* window = NULL;
 		SDL_Renderer* renderer = NULL;
 
-		if (SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer) == 0) {
+		if (SDL_CreateWindowAndRenderer(1024, (int)(1024 * 0.75), 0, &window, &renderer) == 0) {
+			mainView.setRenderer(renderer);
 			SDL_bool done = SDL_FALSE;
 			SDL_Event event;
+			game.start();
 			while (!done) {
 				
 				while (SDL_PollEvent(&event)) {
@@ -54,11 +28,13 @@ int main(int argc, char *argv[])
 
 				SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 				SDL_RenderClear(renderer);
-
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+				auto objects = game.gameObjects();
 				
-				drawcircle(renderer, 200, 200, 5);
-				drawcircle(renderer, 300, 200, 5);
+				for (auto object : objects)
+				{
+					object->accept(&mainView);
+				}
+
 				SDL_RenderPresent(renderer);
 			}
 		}

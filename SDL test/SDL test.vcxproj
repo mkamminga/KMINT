@@ -156,6 +156,7 @@
     <ClCompile Include="CowObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GraphNode.cpp" />
+    <ClCompile Include="HareObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainVisitor.cpp" />
     <ClCompile Include="NodeEdge.cpp" />
@@ -164,10 +165,12 @@
   <ItemGroup>
     <ClInclude Include="AStarSearch.h" />
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="BaseVisitiable.h" />
     <ClInclude Include="BaseVisitor.h" />
     <ClInclude Include="CowObject.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GraphNode.h" />
+    <ClInclude Include="HareObject.h" />
     <ClInclude Include="MainVisitor.h" />
     <ClInclude Include="NodeEdge.h" />
     <ClInclude Include="SparseGraph.h" />

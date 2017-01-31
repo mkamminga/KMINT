@@ -51,14 +51,17 @@
     <ClCompile Include="GraphNode.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files\Base</Filter>
-    </ClCompile>
     <ClCompile Include="NodeEdge.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
     <ClCompile Include="SparseGraph.cpp">
       <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HareObject.cpp">
+      <Filter>Source Files\Models</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +94,12 @@
     </ClInclude>
     <ClInclude Include="TypeDefs.h">
       <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseVisitiable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HareObject.h">
+      <Filter>Header Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

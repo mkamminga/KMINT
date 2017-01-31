@@ -1,10 +1,10 @@
 #pragma once
-#include "BaseVisitor.h"
+#include "BaseVisitiable.h"
 #include <memory>
 
 class GraphNode;
 
-class BaseObject : std::enable_shared_from_this<BaseObject>
+class BaseObject : std::enable_shared_from_this<BaseObject>, public BaseVisitiable
 {
 protected:
 	int x = 0;
@@ -20,6 +20,5 @@ public:
 	void setX(const int x);
 	void setY(const int y);
 	void setNode(std::shared_ptr<GraphNode> node);
-	virtual void accept(BaseVisitor* baseVisitor) = 0;
 };
 
