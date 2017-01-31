@@ -13,5 +13,84 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Models">
+      <UniqueIdentifier>{e25eff2a-0a49-4020-9cf5-080a71bc4c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{be3945d1-3e96-4193-9396-604ad09dc963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Views">
+      <UniqueIdentifier>{6c7c57f6-6eb3-4537-94cd-cb5c849cc752}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Views">
+      <UniqueIdentifier>{471fd8f8-bd2f-443d-a395-9cd83d2440d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Base">
+      <UniqueIdentifier>{8508dd69-2e1c-4a23-b884-630328f8e51a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Base">
+      <UniqueIdentifier>{a1d8cf46-ac84-4717-ac8a-77611926c3c9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BaseObject.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="CowObject.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="MainVisitor.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="AStarSearch.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphNode.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeEdge.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="SparseGraph.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseObject.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="CowObject.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="MainVisitor.h">
+      <Filter>Header Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="AStarSearch.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseVisitor.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphNode.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeEdge.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="SparseGraph.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeDefs.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
