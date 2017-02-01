@@ -2,6 +2,10 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "BaseVisitor.h"
+#include "BaseVisitiable.h"
+#include <vector>
+#include <memory>
+
 class BaseObject;
 
 class MainVisitor : public BaseVisitor
@@ -15,6 +19,7 @@ private:
 
 public:
 	void setRenderer(SDL_Renderer* renderer);
+	void draw(std::vector<std::shared_ptr<BaseVisitiable>>& objects);
 	virtual void visit(CowObject* cow);
 	virtual void visit(GraphNode* graphNode);
 	virtual void visit(HareObject* hare);

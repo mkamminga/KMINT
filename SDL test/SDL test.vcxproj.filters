@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Base">
       <UniqueIdentifier>{a1d8cf46-ac84-4717-ac8a-77611926c3c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Controllers">
+      <UniqueIdentifier>{4c53aa7c-f67c-407a-a21b-fa48fb4498e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controllers">
+      <UniqueIdentifier>{4d048719-9ba7-4c58-9aa0-bee2a5301201}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp">
@@ -62,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="HareObject.cpp">
       <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="MainController.cpp">
+      <Filter>Source Files\Controllers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="HareObject.h">
       <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="MainController.h">
+      <Filter>Header Files\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

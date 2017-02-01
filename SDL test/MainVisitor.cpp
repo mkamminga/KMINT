@@ -42,6 +42,19 @@ void MainVisitor::setRenderer(SDL_Renderer * renderer)
 	this->renderer = renderer;
 }
 
+void MainVisitor::draw(std::vector<std::shared_ptr<BaseVisitiable>>& objects)
+{
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+	SDL_RenderClear(renderer);
+
+	for (auto object : objects)
+	{
+		object->accept(this);
+	}
+
+	SDL_RenderPresent(renderer);
+}
+
 void MainVisitor::visit(CowObject * cow)
 {
 	if (!cowTexture)
