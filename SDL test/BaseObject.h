@@ -20,5 +20,7 @@ public:
 	void setX(const int x);
 	void setY(const int y);
 	void setNode(std::shared_ptr<GraphNode> node);
+	std::shared_ptr<GraphNode> getNode();
+
 };
 

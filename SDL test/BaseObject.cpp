@@ -30,3 +30,8 @@ void BaseObject::setNode(std::shared_ptr<GraphNode> node)
 
 	currentNode = node;
 }
+
+std::shared_ptr<GraphNode> BaseObject::getNode()
+{
+	return currentNode;
+}

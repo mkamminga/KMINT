@@ -11,16 +11,15 @@ const vector<std::shared_ptr<GraphNode>>& SparseGraph::getNodes() const {
 
 ShortestRoute & SparseGraph::shortestPathTo(std::shared_ptr<GraphNode> start, std::shared_ptr<GraphNode> goal)
 {
-	/*if (lastShortestRoute.start != start || lastShortestRoute.goal != goal)
+	if (lastShortestRoute.start != start || lastShortestRoute.goal != goal)
 	{
 		//reset
 		lastShortestRoute.start = start;
 		lastShortestRoute.goal = goal;
-		lastShortestRoute.came_from.clear();
-		lastShortestRoute.cost_so_far.clear();
+		lastShortestRoute.nextRoute = nullptr;
 		//(re)calculate
-		search(start, goal, lastShortestRoute.came_from, lastShortestRoute.cost_so_far);
-	}*/
+		lastShortestRoute.nextRoute = search(start, goal);
+	}
 
 	return lastShortestRoute;
 }
@@ -30,14 +29,14 @@ const double SparseGraph::calcDistance(const std::shared_ptr<GraphNode> from, co
 	return abs(from->getY() - to->getY()) + (from->getX() - to->getX());
 }
 
-void SparseGraph::search(std::shared_ptr<GraphNode> start, std::shared_ptr<GraphNode> goal, std::unordered_map<std::shared_ptr<GraphNode>, std::shared_ptr<GraphNode>>& came_from, std::unordered_map<std::shared_ptr<GraphNode>, double>& cost_so_far)
+std::shared_ptr<Route> SparseGraph::search(std::shared_ptr<GraphNode> start, std::shared_ptr<GraphNode> goal)
 {
+	std::unordered_map<std::shared_ptr<GraphNode>, std::shared_ptr<GraphNode>> came_from; 
+	std::unordered_map<std::shared_ptr<GraphNode>, double> cost_so_far;
 	std::priority_queue<std::pair<double, std::shared_ptr<GraphNode>>> frontier;
 	frontier.push(std::make_pair(0, start));
-
-	came_from[start] = start;
-	cost_so_far[start] = 0;
-
+	
+	bool found = false;
 	while (!frontier.empty()) {
 		std::pair<double, std::shared_ptr<GraphNode>> pair = frontier.top();
 		frontier.pop();
@@ -45,6 +44,7 @@ void SparseGraph::search(std::shared_ptr<GraphNode> start, std::shared_ptr<Graph
 		const std::shared_ptr<GraphNode> current = pair.second;
 
 		if (current == goal) {
+			found = true;
 			break;
 		}
 
@@ -65,4 +65,24 @@ void SparseGraph::search(std::shared_ptr<GraphNode> start, std::shared_ptr<Graph
 			}
 		}
 	}
+
+	if (found)
+	{
+		std::shared_ptr<Route> route = std::make_shared<Route>();
+		route->node = goal;
+
+		std::shared_ptr<GraphNode> currentNode = came_from[goal];
+		while (currentNode != start)
+		{
+			auto lastRoute = route;
+			route = std::make_shared<Route>();
+			route->node = currentNode;
+			route->nextRoute = lastRoute;
+			currentNode = came_from[currentNode];
+		}
+
+		return route;
+	}
+
+	return nullptr;
 }

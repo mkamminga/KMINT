@@ -17,15 +17,31 @@ int main(int argc, char *argv[])
 			mainView.setRenderer(renderer);
 			SDL_bool done = SDL_FALSE;
 			SDL_Event event;
+			ShortestRoute shortestRoute;
+
 			game.start();
 			while (!done) {
 				
 				while (SDL_PollEvent(&event)) {
 					if (event.type == SDL_QUIT) {
 						done = SDL_TRUE;
+					} 
+					else if (event.type == SDL_MOUSEBUTTONUP)
+					{
+						auto hare = game.getHare();
+						auto cow = game.getCow();
+
+						if (hare->getNode() != shortestRoute.goal) // update goal, hare has moved since last update
+						{
+							auto graph = game.getGraph();
+							shortestRoute = graph->shortestPathTo(cow->getNode(), hare->getNode());
+						}
+						auto currentNode = cow->getNode();
+						auto nextNode = shortestRoute.getNextNode();
+						cow->setNode(nextNode);
 					}
 				}
-
+				
 				SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 				SDL_RenderClear(renderer);
 				auto objects = game.gameObjects();
