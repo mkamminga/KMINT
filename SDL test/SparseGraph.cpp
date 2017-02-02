@@ -26,7 +26,7 @@ ShortestRoute & SparseGraph::shortestPathTo(std::shared_ptr<GraphNode> start, st
 
 const double SparseGraph::calcDistance(const std::shared_ptr<GraphNode> from, const std::shared_ptr<GraphNode> to) const
 {
-	return abs(from->getY() - to->getY()) + (from->getX() - to->getX());
+	return abs(from->getY() - to->getY()) + abs(from->getX() - to->getX());
 }
 
 std::shared_ptr<Route> SparseGraph::search(std::shared_ptr<GraphNode> start, std::shared_ptr<GraphNode> goal)
