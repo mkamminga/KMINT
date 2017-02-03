@@ -2,6 +2,7 @@
 #include "BaseVisitiable.h"
 #include <memory>
 
+class Item;
 class GraphNode;
 
 class BaseObject : std::enable_shared_from_this<BaseObject>, public BaseVisitiable
@@ -21,6 +22,6 @@ public:
 	void setY(const int y);
 	void setNode(std::shared_ptr<GraphNode> node);
 	std::shared_ptr<GraphNode> getNode();
-
+	virtual void use(Item* );
 };
 

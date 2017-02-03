@@ -36,6 +36,18 @@ void GraphNode::removeObject(std::shared_ptr<BaseObject> toMatch)
 	}
 }
 
+void GraphNode::removeItem(std::shared_ptr<Item> item)
+{
+	auto position = std::find_if(items.begin(), items.end(), [item](const std::shared_ptr<Item> currentItem) {
+		return item == currentItem;
+	});
+
+	if (position != items.end())
+	{
+		items.erase(position);
+	}
+}
+
 const vector<std::shared_ptr<GraphEdge>>& GraphNode::getEdges() const
 {
 	return edges;
@@ -44,6 +56,11 @@ const vector<std::shared_ptr<GraphEdge>>& GraphNode::getEdges() const
 const vector<std::shared_ptr<BaseObject>>& GraphNode::getObjects() const
 {
 	return baseObjects;
+}
+
+const vector<std::shared_ptr<Item>>& GraphNode::getItems() const
+{
+	return items;
 }
 
 const int GraphNode::getX() const

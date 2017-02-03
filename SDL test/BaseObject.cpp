@@ -35,3 +35,8 @@ std::shared_ptr<GraphNode> BaseObject::getNode()
 {
 	return currentNode;
 }
+
+void BaseObject::use(Item *)
+{
+	//do nothing
+}

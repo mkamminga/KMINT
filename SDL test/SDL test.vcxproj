@@ -157,10 +157,12 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="HareObject.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainController.cpp" />
     <ClCompile Include="MainVisitor.cpp" />
     <ClCompile Include="NodeEdge.cpp" />
+    <ClCompile Include="PillItem.cpp" />
     <ClCompile Include="SparseGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,9 +174,11 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="HareObject.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="MainController.h" />
     <ClInclude Include="MainVisitor.h" />
     <ClInclude Include="NodeEdge.h" />
+    <ClInclude Include="PillItem.h" />
     <ClInclude Include="SparseGraph.h" />
     <ClInclude Include="TypeDefs.h" />
   </ItemGroup>
