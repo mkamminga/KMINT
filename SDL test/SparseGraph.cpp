@@ -33,7 +33,10 @@ std::shared_ptr<Route> SparseGraph::search(std::shared_ptr<GraphNode> start, std
 {
 	std::unordered_map<std::shared_ptr<GraphNode>, std::shared_ptr<GraphNode>> came_from; 
 	std::unordered_map<std::shared_ptr<GraphNode>, double> cost_so_far;
-	std::priority_queue<std::pair<double, std::shared_ptr<GraphNode>>> frontier;
+
+	auto cmp = [](std::pair<double, std::shared_ptr<GraphNode>> left, std::pair<double, std::shared_ptr<GraphNode>> right) { return left.first > right.first; };
+
+	std::priority_queue<std::pair<double, std::shared_ptr<GraphNode>>, std::vector<std::pair<double, std::shared_ptr<GraphNode>>>, decltype(cmp)> frontier(cmp);
 	frontier.push(std::make_pair(0, start));
 	
 	bool found = false;
@@ -58,9 +61,10 @@ std::shared_ptr<Route> SparseGraph::search(std::shared_ptr<GraphNode> start, std
 			}
 
 			if (!cost_so_far.count(next->getTo()) || new_cost < oldCosts) {
+				
 				cost_so_far[next->getTo()] = new_cost;
-				double priority = new_cost + calcDistance(current, next->getTo());
-				frontier.push(std::make_pair(priority, next->getTo())); // push priority as real costs + heuristic costs
+				new_cost = new_cost + calcDistance(current, next->getTo());
+				frontier.push(std::make_pair(new_cost, next->getTo())); // push priority as real costs + heuristic costs
 				came_from[next->getTo()] = current;
 			}
 		}

@@ -9,9 +9,9 @@ void Game::start()
 	auto thirdNode = std::make_shared<GraphNode>(600, 190);
 	auto fourthNode = std::make_shared<GraphNode>(630, 449);
 	auto fifthNode = std::make_shared<GraphNode>(200, 589);
-	auto sifthNode = std::make_shared<GraphNode>(800, 689);
-	auto zeventhNode = std::make_shared<GraphNode>(800, 221);
-	auto eithNode = std::make_shared<GraphNode>(700, 321);
+	auto sifthNode = std::make_shared<GraphNode>(802, 689);
+	auto zeventhNode = std::make_shared<GraphNode>(959, 221);
+	auto eithNode = std::make_shared<GraphNode>(700, 421);
 
 
 	firstNode->addEdges(secondNode, 0);
@@ -24,7 +24,7 @@ void Game::start()
 	sifthNode->addEdges(fifthNode, 0);
 	zeventhNode->addEdges(sifthNode, 0);
 	eithNode->addEdges(zeventhNode, 0);
-	eithNode->addEdges(thirdNode, 0);
+	eithNode->addEdges(thirdNode, 10000);
 
 	graph->addNode(firstNode);
 	graph->addNode(secondNode);
@@ -33,6 +33,7 @@ void Game::start()
 	graph->addNode(fifthNode);
 	graph->addNode(sifthNode);
 	graph->addNode(zeventhNode);
+	graph->addNode(eithNode);
 	
 	secondNode->addObject(cow);
 	fifthNode->addObject(hare);

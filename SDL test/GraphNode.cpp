@@ -9,7 +9,7 @@ void GraphNode::addEdges(std::shared_ptr<GraphNode> to, double cost)
 
 	if (position == edges.end())
 	{
-		edges.push_back(std::make_shared<GraphEdge>(this->shared_from_this(), to, 30));
+		edges.push_back(std::make_shared<GraphEdge>(this->shared_from_this(), to, cost));
 
 		to->addEdges(this->shared_from_this(), cost);
 	}
