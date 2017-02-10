@@ -1,17 +1,19 @@
 #include "Game.h"
 #include "GraphNode.h"
 #include "NodeEdge.h"
+#include "PillItem.h"
+#include "GunItem.h"
 
 void Game::start()
 {
-	auto firstNode = std::make_shared<GraphNode>(50, 20);
-	auto secondNode = std::make_shared<GraphNode>(300, 140);
-	auto thirdNode = std::make_shared<GraphNode>(600, 190);
-	auto fourthNode = std::make_shared<GraphNode>(630, 449);
-	auto fifthNode = std::make_shared<GraphNode>(200, 589);
-	auto sifthNode = std::make_shared<GraphNode>(802, 689);
-	auto zeventhNode = std::make_shared<GraphNode>(959, 221);
-	auto eithNode = std::make_shared<GraphNode>(700, 421);
+	auto firstNode = std::make_shared<GraphNode>(50, 20, graph);
+	auto secondNode = std::make_shared<GraphNode>(300, 140, graph);
+	auto thirdNode = std::make_shared<GraphNode>(600, 190, graph);
+	auto fourthNode = std::make_shared<GraphNode>(630, 449, graph);
+	auto fifthNode = std::make_shared<GraphNode>(200, 589, graph);
+	auto sifthNode = std::make_shared<GraphNode>(802, 689, graph);
+	auto zeventhNode = std::make_shared<GraphNode>(959, 221, graph);
+	auto eithNode = std::make_shared<GraphNode>(700, 421, graph);
 
 
 	firstNode->addEdges(secondNode, 0);
@@ -24,7 +26,7 @@ void Game::start()
 	sifthNode->addEdges(fifthNode, 0);
 	zeventhNode->addEdges(sifthNode, 0);
 	eithNode->addEdges(zeventhNode, 0);
-	eithNode->addEdges(thirdNode, 10000);
+	eithNode->addEdges(thirdNode, 0);
 
 	graph->addNode(firstNode);
 	graph->addNode(secondNode);
@@ -34,6 +36,9 @@ void Game::start()
 	graph->addNode(sifthNode);
 	graph->addNode(zeventhNode);
 	graph->addNode(eithNode);
+
+	eithNode->addItem(std::make_shared<PillItem>());
+	eithNode->addItem(std::make_shared<GunItem>());
 	
 	secondNode->addObject(cow);
 	fifthNode->addObject(hare);
@@ -43,9 +48,6 @@ void Game::start()
 	{
 		objects.push_back(node);
 	}
-	
-	objects.push_back(cow);
-	objects.push_back(hare);
 }
 
 std::shared_ptr<CowObject> Game::getCow()

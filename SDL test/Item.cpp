@@ -1,9 +1,21 @@
 #include "Item.h"
+#include "GraphNode.h" 
 
-void Item::removeFromNode()
+
+void Item::setNode(std::shared_ptr<GraphNode> node)
 {
-	if (node)
-	{ 
-		node->removeItem(shared_from_this());
+	std::shared_ptr<GamePlayObject> object;
+
+	if (currentNode)
+	{
+		currentNode->removeItem(shared_from_this());
 	}
+
+	currentNode = node;
 }
+
+std::shared_ptr<GraphNode> Item::getNode()
+{
+	return currentNode;
+}
+

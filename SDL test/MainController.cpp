@@ -1,32 +1,31 @@
 #include "MainController.h"
+#include <thread>         // std::thread
+#include <chrono>
 
 void MainController::start()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		if (SDL_CreateWindowAndRenderer(1024, (int)(1024 * 0.75), 0, &window, &renderer) == 0) {
+
 			mainView.setRenderer(renderer);
-
-			game.start();
-			auto graph = game.getGraph();
-			auto nodes = graph->getNodes();
-			ShortestRoute shortestRoute;
-
-			default_random_engine dre{ dev() };
-			uniform_int_distribution<int> dist{ 0,  (int)(nodes.size() - 1) };
-			
-
-			while (!done) {
-				int updateCode = feel();
-				if (updateCode == 2)
-				{
-					update(dist, dre, shortestRoute);
-				}
-				draw();
-			}
+			std::thread UIUpdateFrame{ &MainController::play, this };
+			feel();
+			UIUpdateFrame.detach(); // do not wait for sleep, exit on stop
 		}
 	}
 
 	shutdown();
+}
+
+void MainController::play()
+{
+	game.start();
+
+	while (!done) {
+		update();
+		draw();
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
 }
 
 void MainController::draw()
@@ -34,27 +33,26 @@ void MainController::draw()
 	mainView.draw(game.gameObjects());
 }
 
-
 int MainController::feel()
 {
-	SDL_Event event;
+	while (!done) { // waiting for events to happen
+		SDL_Event event;
 
-	while (SDL_PollEvent(&event)) {
-		if (event.type == SDL_QUIT) {
-			done = true;
-
-			return 1;
-		}
-		else if (event.type == SDL_MOUSEBUTTONUP)
-		{
-			return 2;
+		while (SDL_PollEvent(&event)) {
+			if (event.type == SDL_QUIT) {
+				done = true;
+			}
+			else if (event.type == SDL_MOUSEBUTTONUP)
+			{
+				//return 2;
+			}
 		}
 	}
 
 	return 0;
 }
 
-void MainController::update(uniform_int_distribution<int>& dist, default_random_engine& dre, ShortestRoute& shortestRoute)
+void MainController::update()
 {
 	auto graph = game.getGraph();
 	auto nodes = graph->getNodes();
@@ -62,30 +60,8 @@ void MainController::update(uniform_int_distribution<int>& dist, default_random_
 	auto hare = game.getHare();
 	auto cow = game.getCow();
 
-	if (hare->getNode() != shortestRoute.goal) // update goal, hare has moved since last update
-	{
-		shortestRoute = graph->shortestPathTo(cow->getNode(), hare->getNode());
-	}
-
-	auto nextNode = shortestRoute.getNextNode();
-	if (nextNode)
-	{
-		nextNode->addObject(cow);
-	}
-
-	auto currentCowNode = cow->getNode();
-
-	if (currentCowNode == hare->getNode()) // if hare and cow are on the same node, move the hare to a randowm node
-	{
-		auto nextHareNode = currentCowNode;
-
-		while (nextHareNode == currentCowNode) // chose a random new node
-		{
-			int nextHareNodeIndex = dist(dre);
-			nextHareNode = nodes.at(nextHareNodeIndex);
-		}
-		nextHareNode->addObject(hare);
-	}
+	cow->update();
+	hare->update();
 }
 
 void MainController::shutdown()

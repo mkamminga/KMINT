@@ -20,11 +20,12 @@ private:
 	SDL_Renderer* renderer = NULL;
 
 	int feel();
-	void update(uniform_int_distribution<int>& dist, default_random_engine& dre, ShortestRoute& shortestRoute);
+	void update();
 	void draw();
 	void shutdown();
 public:
 	void start();
+	void play();
 	~MainController();
 };
 

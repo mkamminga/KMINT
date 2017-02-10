@@ -5,6 +5,7 @@
 #include "BaseVisitiable.h"
 #include <vector>
 #include <memory>
+#include <map>
 
 class BaseObject;
 
@@ -12,10 +13,10 @@ class MainVisitor : public BaseVisitor
 {
 private:
 	SDL_Renderer* renderer = nullptr;
-	SDL_Texture *cowTexture = nullptr;
-	SDL_Texture *hareTexture = nullptr;
-	SDL_Rect cowPosition;
-	SDL_Rect harePosition;
+
+	SDL_Rect position;
+	std::map<std::string, SDL_Texture*> textures;
+	std::vector< std::pair<std::shared_ptr<GraphNode>, std::shared_ptr<GraphNode>> > nodesVisited;
 
 public:
 	void setRenderer(SDL_Renderer* renderer);
@@ -23,13 +24,15 @@ public:
 	virtual void visit(CowObject* cow);
 	virtual void visit(GraphNode* graphNode);
 	virtual void visit(HareObject* hare);
+	virtual void visit(PillItem* hare);
+	virtual void visit(GunItem* node);
 	void drawObjectTexture(BaseObject* object, SDL_Texture * texture, SDL_Rect* position);
 
 	~MainVisitor()
 	{
-		if (cowTexture)
+		for (auto texture : textures)
 		{
-			SDL_DestroyTexture(cowTexture);
+			SDL_DestroyTexture(texture.second);
 		}
 	}
 };

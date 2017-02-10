@@ -5,7 +5,8 @@
 #include "GraphNode.h"
 #include "NodeEdge.h"
 #include "SparseGraph.h"
-
+#include "PillItem.h"
+#include "GunItem.h"
 
 void drawcircle(SDL_Renderer* renderer, int x0, int y0, int radius)
 {
@@ -40,6 +41,10 @@ void drawcircle(SDL_Renderer* renderer, int x0, int y0, int radius)
 void MainVisitor::setRenderer(SDL_Renderer * renderer)
 {
 	this->renderer = renderer;
+	textures["hare"] = IMG_LoadTexture(renderer, "images/rabbit-2.png");
+	textures["cow"] = IMG_LoadTexture(renderer, "images/cow-1.png");
+	textures["pill"] = IMG_LoadTexture(renderer, "images/pill.png");
+	textures["gun"] = IMG_LoadTexture(renderer, "images/gun-metal.png");
 }
 
 void MainVisitor::draw(std::vector<std::shared_ptr<BaseVisitiable>>& objects)
@@ -53,20 +58,10 @@ void MainVisitor::draw(std::vector<std::shared_ptr<BaseVisitiable>>& objects)
 	}
 
 	SDL_RenderPresent(renderer);
+
+	nodesVisited.clear();
 }
 
-void MainVisitor::visit(CowObject * cow)
-{
-	if (!cowTexture)
-	{
-		cowTexture = IMG_LoadTexture(renderer, "images/cow-1.png");
-		cowPosition.w = 110;
-		cowPosition.h = 110;
-	}
-
-	drawObjectTexture(cow, cowTexture, &cowPosition);
-
-}
 
 void MainVisitor::visit(GraphNode * node)
 {
@@ -76,23 +71,64 @@ void MainVisitor::visit(GraphNode * node)
 	//draw all edges
 	for (auto edge : edges)
 	{
+		
 		auto from	= edge->getFrom();
 		auto to		= edge->getTo();
-		SDL_RenderDrawLine(renderer, from->getX(), from->getY(), to->getX(), to->getY());
+
+		if ( std::find(nodesVisited.cbegin(), nodesVisited.cend(), make_pair(from, to)) == nodesVisited.cend() ) // prevent dubble painting
+		{
+			SDL_RenderDrawLine(renderer, from->getX(), from->getY(), to->getX(), to->getY());
+			nodesVisited.push_back(make_pair(from, to)); // add both combinations
+			nodesVisited.push_back(make_pair(to, from));
+		}
+	}
+
+	auto objects = node->getObjects();
+
+	for (auto object : objects)
+	{
+		object->accept(this);
+	}
+
+	auto items = node->getItems();
+
+	for (auto item : items)
+	{
+		item->accept(this);
 	}
 	
 }
 
+void MainVisitor::visit(CowObject * cow)
+{
+	position.h = 110;
+	position.w = 110;
+	drawObjectTexture(cow, textures["cow"], &position);
+}
+
+
 void MainVisitor::visit(HareObject * hare)
 {
-	if (!hareTexture)
-	{
-		hareTexture = IMG_LoadTexture(renderer, "images/rabbit-2.png");
-		harePosition.w = 60;
-		harePosition.h = 60;
-	}
+	position.w = 60;
+	position.h = 60;
 
-	drawObjectTexture(hare, hareTexture, &harePosition);
+	drawObjectTexture(hare, textures["hare"], &position);
+}
+
+void MainVisitor::visit(PillItem * pill)
+{
+	position.w = 20;
+	position.h = 20;
+
+	drawObjectTexture(pill, textures["pill"], &position);
+}
+
+void MainVisitor::visit(GunItem * gun)
+{
+	position.w = 40;
+	position.h = 40;
+
+	drawObjectTexture(gun, textures["gun"], &position);
 }
 
 void MainVisitor::drawObjectTexture(BaseObject * object, SDL_Texture * texture, SDL_Rect * position)

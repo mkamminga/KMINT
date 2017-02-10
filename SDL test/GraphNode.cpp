@@ -1,5 +1,21 @@
 #include "GraphNode.h"
+#include "SparseGraph.h"
 #include <algorithm>
+
+void GraphNode::recalculateBaseObjectsPosition(int xOffset, int yOffset, int number, vector<std::shared_ptr<Item>>& objectsToUpdate)
+{
+	if (number > 0)
+	{
+		//node is 100 wide
+		// object is 
+		for (auto object : objectsToUpdate)
+		{
+			object->setX(xOffset);
+			object->setY(yOffset);
+			xOffset += 20;
+		}
+	}
+}
 
 void GraphNode::addEdges(std::shared_ptr<GraphNode> to, double cost)
 {
@@ -16,15 +32,15 @@ void GraphNode::addEdges(std::shared_ptr<GraphNode> to, double cost)
 
 }
 
-void GraphNode::addObject(std::shared_ptr<BaseObject> object)
+void GraphNode::addObject(std::shared_ptr<GamePlayObject> object)
 {
 	baseObjects.push_back(object);
+	object->setNode(this->shared_from_this());
 	object->setX(x);
 	object->setY(y);
-	object->setNode(this->shared_from_this());
 }
 
-void GraphNode::removeObject(std::shared_ptr<BaseObject> toMatch)
+void GraphNode::removeObject(std::shared_ptr<GamePlayObject> toMatch)
 {
 	for (auto it = baseObjects.begin(); it != baseObjects.end(); it++)
 	{
@@ -36,15 +52,23 @@ void GraphNode::removeObject(std::shared_ptr<BaseObject> toMatch)
 	}
 }
 
+void GraphNode::addItem(std::shared_ptr<Item> item)
+{
+	items.push_back(item);
+	recalculateBaseObjectsPosition(x - 10, y - 50, items.size(), items);
+}
+
 void GraphNode::removeItem(std::shared_ptr<Item> item)
 {
-	auto position = std::find_if(items.begin(), items.end(), [item](const std::shared_ptr<Item> currentItem) {
-		return item == currentItem;
-	});
-
-	if (position != items.end())
+	for (auto it = items.begin(); it != items.end(); it++)
 	{
-		items.erase(position);
+		auto object = it.operator*();
+		if (object == item) {
+			items.erase(it);
+			item->setNode(nullptr);
+			recalculateBaseObjectsPosition(x - 10, y - 50, items.size(), items);
+			break;
+		}
 	}
 }
 
@@ -53,7 +77,7 @@ const vector<std::shared_ptr<GraphEdge>>& GraphNode::getEdges() const
 	return edges;
 }
 
-const vector<std::shared_ptr<BaseObject>>& GraphNode::getObjects() const
+const vector<std::shared_ptr<GamePlayObject>>& GraphNode::getObjects() const
 {
 	return baseObjects;
 }
@@ -63,14 +87,9 @@ const vector<std::shared_ptr<Item>>& GraphNode::getItems() const
 	return items;
 }
 
-const int GraphNode::getX() const
+const std::shared_ptr<SparseGraph> GraphNode::getGraph() const
 {
-	return x;
-}
-
-const int GraphNode::getY() const
-{
-	return y;
+	return graph;
 }
 
 void GraphNode::accept(BaseVisitor * baseVisitor)

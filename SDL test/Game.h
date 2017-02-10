@@ -14,8 +14,8 @@ private:
 public:
 	Game() 
 	{
-		cow = std::make_shared<CowObject>(0, 0);
-		hare = std::make_shared<HareObject>(0, 0);
+		hare = std::make_shared<HareObject>(0, 0, nullptr);
+		cow = std::make_shared<CowObject>(0, 0, hare);
 		graph = std::make_shared<SparseGraph>();
 	}
 	void start();
